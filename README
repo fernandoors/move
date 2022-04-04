@@ -1,0 +1,24 @@
+# MOVE PROJECT
+
+This project is the service for Move Quote. Here it's possible to create new Quotes and list it for "mates" put their prices in the future...
+
+##### The project structure is:
+
+```bash
+├── backend
+└── frontend
+```
+
+## Quick start Backend and Frontend
+
+1. Navigate for this folder:
+
+2. Running it for dev environment:
+
+`docker-compose up`
+
+## Front End Views
+
+![FrontHome](./assets/front-home.png)
+![FrontDetail](./assets/front-quote.png)
+

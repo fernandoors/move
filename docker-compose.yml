@@ -1,0 +1,35 @@
+version: '3'
+services:
+  frontend:
+    image: node:17-slim
+    container_name: frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    command: bash -c "npm i && npm run start"
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: bash -c "python -m app.server"
+    restart: on-failure:2
+    environment:
+      - MONGODB_URL=mongo
+      - PORT=5000
+      - ENV=DEV
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    restart: always
+    container_name: mongo
