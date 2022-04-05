@@ -1,6 +1,6 @@
 const quoteSchema: Quote = {
   date_to_move: "",
-  status: "",
+  status: "pedding",
   user: {
     name: "",
     email: "",

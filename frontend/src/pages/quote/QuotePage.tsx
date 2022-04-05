@@ -7,12 +7,14 @@ import quoteSchema from "../../helpers/quoteSchema";
 import * as S from "./QuotePage.styles";
 import QuoteForm from "../../components/QuoteForm/QuoteForm";
 import Button from "../../components/Button/Button";
+import quoteIsValid from "../../helpers/quoteIsValid";
 
 export default function QuotePage() {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
   const [quote, setQuote] = useState<Quote>(quoteSchema);
   const [quoteLoading, setQuoteLoading] = useState(false);
+  const [quoteIsInvalid, setQuoteIsInvalid] = useState(false);
 
   useEffect(() => {
     async function requestQuote() {
@@ -29,9 +31,14 @@ export default function QuotePage() {
   function handleSave() {
     const isNew = id === "new";
     const method = isNew ? "post" : "put";
-    api[method](`/quote/` + (isNew ? "" : id), { ...quote }).then(() => {
-      history.push("/");
-    });
+    const isValid = quoteIsValid(quote);
+    if (isValid) {
+      api[method](`/quote/` + (isNew ? "" : id), { ...quote }).then(() => {
+        history.push("/");
+      });
+    } else {
+      setQuoteIsInvalid(true);
+    }
   }
 
   const onChange = (key: string, value: string) => {
@@ -82,6 +89,15 @@ export default function QuotePage() {
           <S.Container>
             <S.Row>
               <Link to="/">{"<"}</Link>
+              {quoteIsInvalid && (
+                <h4
+                  onClick={() => {
+                    setQuoteIsInvalid(false);
+                  }}
+                >
+                  Quote Is Invalid
+                </h4>
+              )}
               <Button onClick={handleSave}>Save</Button>
             </S.Row>
             <h3 style={{ textAlign: "center" }}>

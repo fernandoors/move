@@ -20,11 +20,13 @@ export default function Table({ head, data }: TableProps) {
         </S.Tr>
       </S.Thead>
       <S.Tbody>
-        <S.Tr>
-          {data.map((row) =>
-            row.map(({ label }) => <S.Td key={uuidv4()}>{label}</S.Td>)
-          )}
-        </S.Tr>
+        {data.map((row) => (
+          <S.Tr key={uuidv4()}>
+            {row.map(({ label }) => (
+              <S.Td key={uuidv4()}>{label}</S.Td>
+            ))}
+          </S.Tr>
+        ))}
       </S.Tbody>
     </S.Container>
   );

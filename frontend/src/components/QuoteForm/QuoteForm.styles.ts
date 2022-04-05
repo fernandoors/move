@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  .location {
+    margin-bottom: 20px;
+  }
+`;
 
 export const Form = styled.form``;
 
@@ -22,7 +26,7 @@ export const Volumes = styled.div`
   flex-wrap: wrap;
   > button {
     position: absolute;
-    right: 5px;
+    right: 35px;
   }
 `;
 export const Volume = styled.div`
@@ -31,6 +35,13 @@ export const Volume = styled.div`
   h4 {
     text-align: center;
     margin-bottom: 20px;
+  }
+  button {
+    background: gray;
+    border: transparent;
+    &:hover {
+      background: #80808075;
+    }
   }
   > div {
     margin: 5px 0;

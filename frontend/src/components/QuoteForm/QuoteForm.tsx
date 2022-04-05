@@ -1,3 +1,6 @@
+import { useJsApiLoader } from "@react-google-maps/api";
+import { GOOGLE_API_KEY } from "../../service/api";
+import AddressForm from "../AddressForm/AddressForm";
 import Button from "../Button/Button";
 import Map from "../Map/Map";
 
@@ -13,7 +16,14 @@ interface QuoteFormProps {
   onVolumeChange: (index: number, key: string, value: string) => void;
 }
 
+const libraries: Libraries = ["places"];
+
 export default function QuoteForm(props: QuoteFormProps) {
+  const { isLoaded, loadError } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: GOOGLE_API_KEY,
+    libraries,
+  });
   const {
     quote,
     onChange,
@@ -54,15 +64,21 @@ export default function QuoteForm(props: QuoteFormProps) {
             type="date"
             id="date_to_move"
             style={{ marginLeft: 29 }}
-            pattern="[\d]{4}-[\d]{2}-[\d]{2} "
-            min={new Date().toISOString().split("T")[0]}
             value={quote.date_to_move as string}
             onChange={(e) => onChange("date_to_move", e.target.value)}
           />
         </S.Row>
-        <S.Row className="location">
-          <Map quote={quote} />
-        </S.Row>
+        {isLoaded && !loadError ? (
+          <div className="location">
+            <h4>Where: </h4>
+            <AddressForm quote={quote} onLocationChange={onLocationChange} />
+            <Map quote={quote} />
+          </div>
+        ) : (
+          <h2>
+            Maps not loading, please check if the Google MAPS API Key is on .env
+          </h2>
+        )}
         <S.Volumes className="volumes">
           <Button onClick={onAddVolume}>+</Button>
           {quote.volumes.map((volume, index) => (

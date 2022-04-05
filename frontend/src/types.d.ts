@@ -1,4 +1,4 @@
-declare module 'google-map-react'
+declare module "google-map-react";
 interface Quote {
   _id?: string;
   status: string;
@@ -31,3 +31,11 @@ interface Volumes {
   length: string;
   width: string;
 }
+
+type Libraries = (
+  | "drawing"
+  | "geometry"
+  | "localContext"
+  | "places"
+  | "visualization"
+)[];
