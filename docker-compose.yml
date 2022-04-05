@@ -9,6 +9,8 @@ services:
       - ./frontend:/app
     working_dir: /app
     command: bash -c "npm i && npm run start"
+    environment:
+      - REACT_APP_GOOGLE_MAPS_API=${REACT_APP_GOOGLE_MAPS_API}
     depends_on:
       - backend
   backend:
