@@ -1,6 +1,7 @@
 import os
 from pymongo import MongoClient
 from bson import ObjectId
+from app.helpers.mock_data import quote_list
 
 
 class Mongo():
@@ -9,6 +10,8 @@ class Mongo():
     def __init__(self):
         conn = MongoClient(os.getenv('MONGODB_URL', default='mongo'))
         self.client = conn.quote
+        conn.quote['quote'].delete_many({})
+        conn.quote['quote'].insert_many(quote_list)
 
     def find(self, collection):
         return self.client[collection].find()
